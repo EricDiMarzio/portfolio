@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Libre Franklin', sans-serif;
+  text-transform: uppercase;
+  display: absolute;
+}
+
+.game-board {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 912px;
+  width: 600px;
+  padding: 40px;
+}
+
+.tile-board {
+  display: flex;
+  flex-direction: column;
+  height: 410px;
+  padding: 10px;
+  /* background-color: rgba(216, 189, 99, 0.76); */
+}
+
+.tile-row {
+  display: flex;
+  height: 65px;
+}
+
+.tile {
+  height: 62px;
+  width: 62px;
+  scale: 1;
+  /* max-height: 62px;
+  max-width: 62px; */
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 1.5px;
+  transition: transform 0.08s ease;
+}
+
+.active {
+  background-color: none;
+  border: 2.4px #d3d6da solid;
+}
+
+.animate {
+  transform: scale(1.1);
+}
+
+.reveal {
+  transform: scale(1.1);
+}
+
+.blank {
+  background-color: none;
+  border: 2.4px #d3d6da solid;
+}
+
+.guess {
+  background-color: none;
+  border: 2.4px #787c7e solid;
+}
+
+.wrong {
+  background-color: #787c7e;
+  border: 0px;
+  color: #ffffff;
+}
+
+.present {
+  background-color: #c9b458;
+  border: 0px;
+  color: #ffffff;
+}
+
+.correct {
+  background-color: #6aaa64;
+  border: 0px;
+  color: #ffffff;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  height: 224px;
+  /* background-color: rgba(216, 99, 99, 0.76); */
+}
+
+.key-row {
+  display: flex;
+  justify-content: center;
+}
+.key {
+  height: 60px;
+  width: 40px;
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+
+  border-radius: 4px;
+}
+
+.key-blank {
+  color: #000;
+  background-color: #cccccc;
+}
+
+.key:hover {
+  cursor: pointer;
+}
+
+#enter {
+  font-size: 1rem;
+  flex-grow: 0.5;
+}
+
+#delete {
+  font-size: 3rem;
+  flex-grow: 0.5;
+}
+
+@media (max-width: 500px) {
+  .keyboard {
+    width: 350px;
+  }
+}
