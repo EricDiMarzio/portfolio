@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=PT+Sans+Narrow:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  /* font-size: 62.5%; */
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Barlow';
+  display: flex;
+  justify-content: center;
+}
+
+.site-container {
+  max-width: 750px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+#test {
+  height: 100px;
+  width: 100%;
+  background-color: aquamarine;
+  border: black solid 1px;
+  /* position: fixed;
+  top: 0; */
+}
+
+iframe {
+  width: 100%;
+}
+
+h1 {
+  font-weight: 200;
+  font-size: 4rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-weight: 200;
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.4;
+}
+
+/*Nav Bar*/
+
+/* .navbar-box {
+  height: 3.5rem;
+  width: 100%;
+} */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.514);
+  color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 3.5rem;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  margin: 0.5rem;
+  display: block;
+}
+
+.brand-title a {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  display: block;
+}
+
+.navbar-links ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-links li {
+  list-style: none;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: #000;
+  padding: 1rem;
+  display: block;
+  cursor: pointer;
+}
+
+.navbar-links li a:hover {
+  translate: 0 -1.8px;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 31px;
+  height: 21px;
+  cursor: pointer;
+}
+
+.toggle-button .bar {
+  height: 3px;
+  width: 100%;
+  background-color: #000;
+  border-radius: 10px;
+}
+
+#nav-logo {
+  display: inline-block;
+  background: none;
+  font-size: 2rem;
+  font-family: inherit;
+  font-weight: 200;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.section {
+  padding-top: 4em;
+  width: 100%;
+}
+
+.header {
+  position: relative;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+#portrait-quito {
+  height: 7rem;
+  border-radius: 100%;
+  margin-right: 32px;
+}
+
+p span {
+  font-weight: 600;
+}
+
+/*Product*/
+
+.project-collection {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.project {
+  max-width: 400px;
+  margin: 2rem 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project-image {
+  height: 10rem;
+  border-radius: 8px;
+}
+.project-preview {
+  width: 20rem;
+  aspect-ratio: 10/8;
+  /* background-image: url('images/product-10x8-three-card-monte.jpg'); */
+  background-size: cover;
+  background-position: center center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.footer {
+  width: 100%;
+  /* height: 5rem; */
+  /* background-image: linear-gradient(
+    to top left,
+    rgb(53, 140, 198) 0%,
+    rgb(108, 199, 255) 100%
+  ); */
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-icon-container {
+  padding: 1em;
+}
+
+.social-icon-container a {
+}
+
+.fa-brands {
+  color: #000;
+  transition: all 0.3s;
+}
+
+.fa-brands:hover {
+  translate: 0 -1.8px;
+}
+
+.social-icon-container a:hover {
+  box-shadow: 0 1rem 2rem rgba(0, 0.25, 0.25, 0.25);
+  translate: 0 -1.8px;
+}
+
+.footer-attribute-container {
+  display: flex;
+  width: 100%;
+  font-size: 0.8rem;
+  padding: 1em;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer-attribute-container a {
+  text-decoration: underline;
+  color: #000;
+}
+
+/*Media*/
+
+@media (max-width: 500px) {
+  html {
+    /* font-size: 62.5%; */
+  }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: 200;
+  }
+  .toggle-button {
+    display: flex;
+  }
+  .navbar-links {
+    display: none;
+    width: 100%;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar-links ul {
+    margin-top: 2rem;
+    width: 100%;
+    flex-direction: column;
+  }
+  .navbar-links li {
+    text-align: right;
+  }
+  .navbar-links li a {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  iframe {
+    height: 1300px;
+  }
+}
