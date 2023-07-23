@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three Card Monte</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Three Card Monte</h1>
+    <div class="board">
+      <div class="card card-a">
+        <div class="container" id="containerA">
+          <div class="front" id="a-front"></div>
+          <div class="back"></div>
+        </div>
+      </div>
+      <div class="card card-b">
+        <div class="container" id="containerB">
+          <div class="front" id="b-front"></div>
+          <div class="back"></div>
+        </div>
+      </div>
+      <div class="card card-c">
+        <div class="container" id="containerC">
+          <div class="front" id="c-front"></div>
+          <div class="back"></div>
+        </div>
+      </div>
+      <!-- <div class="center-line"></div> -->
+    </div>
+    <div class="menu">
+      <div class="game-tools">
+        <div class="buttons">
+          <button class="btn-difficulty shuffleEasy">Easy</button>
+          <button class="btn-difficulty shuffleMedium"></button>
+          <button class="btn-difficulty shuffleHard">Hard</button>
+        </div>
+        <div class="money">
+          <div>
+            <h3 class="bank">$<span class="balance">20.00</span></h3>
+          </div>
+          <div><h3>I want to bet...</h3></div>
+          <div id="bet">
+            $<input
+              class="bet-input"
+              type="number"
+              name="bet"
+              value="1"
+              max="20"
+            />
+          </div>
+        </div>
+        <div class="payout">
+          <p></p>
+          <p>Payout | Easy 50% | Medium 100% | Hard 150%</p>
+        </div>
+      </div>
+      <div class="game-rules">
+        <h3>How to Play</h3>
+        <br />
+        <p>1. Place a bet from your bank.</p>
+        <p>2. Select a difficulty.</p>
+        <p>3. Follow the red card.</p>
+        <p>4. When the cards have stopped, click on the red card.</p>
+      </div>
+    </div>
+    <!-- <button id="return-home">Home</button> -->
+    <script src="script.js"></script>
+  </body>
+</html>
