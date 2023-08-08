@@ -292,3 +292,53 @@ p span {
     height: 1300px;
   }
 }
+
+@media (max-width: 390px) {
+  html {
+    /* font-size: 62.5%; */
+  }
+
+  site-container {
+    max-width: 95%;
+  }
+
+  h1 {
+    font-size: 3.8rem;
+    font-weight: 200;
+  }
+  .toggle-button {
+    display: flex;
+  }
+  .navbar-links {
+    display: none;
+    width: 100%;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar-links ul {
+    margin-top: 2rem;
+    width: 100%;
+    flex-direction: column;
+  }
+  .navbar-links li {
+    text-align: right;
+  }
+  .navbar-links li a {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .title-container {
+    display: block;
+  }
+
+  iframe {
+    height: 1300px;
+  }
+}
