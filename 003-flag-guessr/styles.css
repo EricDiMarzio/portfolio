@@ -32,7 +32,8 @@ body {
 
 .site-container {
   margin: 2rem;
-  max-height: 1000px;
+  max-height: 100vh;
+  height: 720px;
   max-width: 460px;
   background-image: var(--gradient-primary);
   border: grey solid 2px;
