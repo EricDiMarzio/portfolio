@@ -17,7 +17,8 @@ const answers = [answerA, answerB, answerC, answerD];
 let countryList = new Map();
 let activeCountry;
 let randomNumber;
-let keyCounter = 0;
+let keyCounter = 1;
+let activeCountryName;
 
 const newGame = function () {
   flagsGrid.innerHTML = '';
@@ -39,22 +40,30 @@ const newGame = function () {
           countryList.set(keyCounter++, newEntry);
         }
       });
-      renderNewCountry();
     })
-    .catch((err) => console.log(err))
-    .finally(() => {});
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderNewCountry();
+    });
 };
 
 const renderNewCountry = function () {
+  if (lives.textContent === '') {
+    document.querySelector('.modal').showModal();
+    return;
+  }
   randomNumber = Math.floor(Math.random() * countryList.size);
+  // console.log(`Step 1: Random Number is : ${randomNumber}`);
   activeCountry = countryList.get(randomNumber);
-  // updateAnswers();
+  activeCountryName = activeCountry.commonName;
 
-  console.log(activeCountry);
+  // console.log(activeCountry);
   let randomArray = [];
   for (let i = 0; i < 30; i++) {
-    let randomNumber = Math.floor(Math.random() * 4);
-    randomArray.push(randomNumber);
+    let answerNumber = Math.floor(Math.random() * 4);
+    randomArray.push(answerNumber);
   }
   const filteredArray = randomArray.reduce((accumulator, i) => {
     if (!accumulator.includes(i)) {
@@ -62,13 +71,24 @@ const renderNewCountry = function () {
     }
     return accumulator;
   }, []);
+  console.log(activeCountryName);
+
+  // let r = Math.floor(Math.random() * countryList.size);
+  // const wrongAnswer1 = countryList.get(r).commonName;
+  // r = Math.floor(Math.random() * countryList.size);
+  // const wrongAnswer2 = countryList.get(r).commonName;
+  // r = Math.floor(Math.random() * countryList.size);
+  // const wrongAnswer3 = countryList.get(r).commonName;
 
   let r = Math.floor(Math.random() * countryList.size);
-  const wrongAnswer1 = countryList.get(r).commonName;
+  let wrongCountry = countryList.get(r);
+  const wrongAnswer1 = wrongCountry.commonName;
   r = Math.floor(Math.random() * countryList.size);
-  const wrongAnswer2 = countryList.get(r).commonName;
+  wrongCountry = countryList.get(r);
+  const wrongAnswer2 = wrongCountry.commonName;
   r = Math.floor(Math.random() * countryList.size);
-  const wrongAnswer3 = countryList.get(r).commonName;
+  wrongCountry = countryList.get(r);
+  const wrongAnswer3 = wrongCountry.commonName;
 
   answers[filteredArray[0]].textContent = activeCountry.commonName;
   answers[filteredArray[1]].textContent = wrongAnswer1;
@@ -104,10 +124,10 @@ const updateAnswers = function () {
   answers[filteredArray[3]].textContent = wrongAnswer3;
 };
 
-const addFlagToGrid = function (flag) {
+const addFlagToGrid = function () {
   const newFlag = document.createElement('div');
   newFlag.classList.add('grid-item');
-  newFlag.innerHTML = flag;
+  newFlag.innerHTML = activeCountry.flag;
   flagsGrid.appendChild(newFlag);
 };
 
@@ -124,27 +144,28 @@ const loseALife = function () {
 answersContainer.addEventListener('click', function (e) {
   if (e.target.textContent === '???') return;
   if (e.target.textContent === activeCountry.commonName) {
-    console.log('correct!');
     e.target.classList.add('correct');
     setTimeout(function () {
       e.target.classList.remove('correct');
-      addFlagToGrid(activeCountry.flag);
-      removeCountry(activeCountry);
-    }, 200);
+      addFlagToGrid();
+      // removeCountry();
+      // countryList.delete(randomNumber);
+      renderNewCountry();
+    }, 300);
   }
   if (
     e.target.classList.contains('answer') &&
     e.target.textContent !== activeCountry.commonName
   ) {
+    document.querySelector('.lives').innerHTML = lives.innerHTML.slice(0, -2);
     e.target.classList.add('wrong');
+
     setTimeout(function () {
       e.target.classList.remove('wrong');
+      renderNewCountry();
     }, 300);
-    loseALife();
   }
-  setTimeout(function () {
-    renderNewCountry();
-  }, 300);
+  // setTimeout(function () {}, 300);
 });
 
 // settingsButton.addEventListener('click', function () {
@@ -154,8 +175,8 @@ answersContainer.addEventListener('click', function (e) {
 newGameButton.addEventListener('click', newGame);
 
 playAgainButton.addEventListener('click', function () {
-  document.querySelector('.modal').close();
   newGame();
+  document.querySelector('.modal').close();
 });
 
 // Application Start
