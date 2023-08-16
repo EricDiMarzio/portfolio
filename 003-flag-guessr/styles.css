@@ -9,7 +9,7 @@
   --color-secondary-opacity: #ffcd0331;
   --color-tertiary-opacity: #ff58602d;
   --gradient-primary: linear-gradient(to left, #75c2f6, #fff);
-  --gradient-secondary: linear-gradient(to top left, #ffb003, #ffcb03);
+  --gradient-secondary: linear-gradient(to top left, #ffb003, #fff1bb);
 }
 
 * {
@@ -28,6 +28,10 @@ body {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   display: flex;
   justify-content: center;
+  background-image: var(--gradient-secondary);
+  background-repeat: no-repeat;
+  background-position: cover;
+  height: 100vh;
 }
 
 .site-container {
@@ -36,7 +40,7 @@ body {
   height: 800px;
   max-width: 460px;
   background-image: var(--gradient-primary);
-  border: grey solid 2px;
+  border: rgba(61, 143, 219, 0.651) solid 2.5px;
   display: flex;
   flex-direction: column;
   align-items: center;
