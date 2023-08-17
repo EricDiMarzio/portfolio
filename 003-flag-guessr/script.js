@@ -18,25 +18,22 @@ const answers = [answerA, answerB, answerC, answerD];
 
 let countryList = new Map();
 let correctCountries = new Map();
-let regionList = [];
-let randomCountryNumber;
+let activeCountryNumber;
 let wrongAnswer;
 let activeCountry;
 let randomNumber;
 let keyCounter = 0;
-let activeCountryName;
 let correctGuesses = 0;
 let numberOfCountries;
-let selectedCheckboxes;
+let regionList = ['Europe'];
 
 const newGame = function () {
-  regionList = [];
   flagsGrid.innerHTML = '';
   countryList.clear();
   correctCountries.clear();
   keyCounter = 0;
   correctGuesses = 0;
-  document.querySelector('.lives').innerHTML = '❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️';
+  document.querySelector('.lives').innerHTML = '❤️❤️❤️❤️❤️';
   const request = fetch(`https://restcountries.com/v3.1/all`)
     .then((response) => {
       if (!response.ok) throw new Error(`Error message: ${response.status}`);
@@ -44,7 +41,7 @@ const newGame = function () {
     })
     .then((data) => {
       data.forEach((entry) => {
-        if (selectedCheckboxes.includes(entry.region)) {
+        if (regionList.includes(entry.region)) {
           const newEntry = {
             commonName: entry.name.common,
             capital: entry.capital,
@@ -53,7 +50,6 @@ const newGame = function () {
             flag: entry.flag,
           };
           countryList.set(keyCounter++, newEntry);
-          regionList.push(entry.region);
         }
       });
     })
@@ -61,38 +57,29 @@ const newGame = function () {
       console.log(err);
     })
     .finally(() => {
-      const filteredRegionList = [];
-
-      regionList.forEach((region) => {
-        if (!filteredRegionList.includes(region))
-          filteredRegionList.push(region);
-      });
-      console.log(filteredRegionList);
       numberOfCountries = countryList.size;
       document.getElementById(
         'title'
       ).innerHTML = `Flag Guessr ~ ${correctGuesses}/${numberOfCountries}`;
       renderNewCountry();
-      console.log(countryList);
     });
 };
 
-const getRandomCountryNumber = function () {
+const getActiveCountryNumber = function () {
   while (true) {
-    randomCountryNumber = Math.floor(Math.random() * numberOfCountries);
-    if (!correctCountries.has(randomCountryNumber)) {
-      return randomCountryNumber;
+    activeCountryNumber = Math.floor(Math.random() * numberOfCountries);
+    if (!correctCountries.has(activeCountryNumber)) {
+      return activeCountryNumber;
     }
   }
 };
 
 const getWrongAnswer = function () {
-  const activeRegion = activeCountry.region;
   while (true) {
     wrongAnswer = Math.floor(Math.random() * numberOfCountries);
     if (
-      wrongAnswer !== randomCountryNumber &&
-      countryList.get(wrongAnswer).region === activeRegion
+      wrongAnswer !== activeCountryNumber &&
+      countryList.get(wrongAnswer).region === activeCountry.region
     ) {
       return wrongAnswer;
     }
@@ -102,40 +89,38 @@ const getWrongAnswer = function () {
 const renderNewCountry = function () {
   if (lives.textContent === '') {
     document.querySelector('.modal').showModal();
-    return;
   }
-  activeCountry = countryList.get(getRandomCountryNumber());
-  activeCountryName = activeCountry.commonName;
 
-  let randomArray = [];
+  activeCountry = countryList.get(getActiveCountryNumber());
+  console.log(activeCountry.commonName);
+
+  activeFlag.src = activeCountry.flagPNG;
+
+  let answerOrder = [];
   for (let i = 0; i < 30; i++) {
-    let answerNumber = Math.floor(Math.random() * 4);
-    randomArray.push(answerNumber);
+    answerOrder.push(Math.floor(Math.random() * 4));
   }
-  const filteredArray = randomArray.reduce((accumulator, i) => {
+  answerOrder = answerOrder.reduce((accumulator, i) => {
     if (!accumulator.includes(i)) {
       accumulator.push(i);
     }
     return accumulator;
   }, []);
-  console.log(activeCountryName);
 
-  const wrongAnswer1 = countryList.get(getWrongAnswer()).commonName;
-  const wrongAnswer2 = countryList.get(getWrongAnswer()).commonName;
-  const wrongAnswer3 = countryList.get(getWrongAnswer()).commonName;
-
-  answers[filteredArray[0]].textContent = activeCountry.commonName;
-  answers[filteredArray[1]].textContent = wrongAnswer1;
-  answers[filteredArray[2]].textContent = wrongAnswer2;
-  answers[filteredArray[3]].textContent = wrongAnswer3;
-
-  activeFlag.src = activeCountry.flagPNG;
+  answers[answerOrder[0]].textContent = activeCountry.commonName;
+  answers[answerOrder[1]].textContent = countryList.get(
+    getWrongAnswer()
+  ).commonName;
+  answers[answerOrder[2]].textContent = countryList.get(
+    getWrongAnswer()
+  ).commonName;
+  answers[answerOrder[3]].textContent = countryList.get(
+    getWrongAnswer()
+  ).commonName;
 };
 
-const updateAnswers = function () {};
-
 const processCorrectAnswer = function () {
-  correctCountries.set(randomCountryNumber, activeCountry);
+  correctCountries.set(activeCountryNumber, activeCountry);
   const newFlag = document.createElement('div');
   newFlag.classList.add('grid-item');
   newFlag.innerHTML = activeCountry.flag;
@@ -192,11 +177,14 @@ playAgainButton.addEventListener('click', function () {
 submitButton.addEventListener('click', function (e) {
   e.preventDefault();
   const checkboxes = document.getElementsByName('checkbox');
-  selectedCheckboxes = [];
+  regionList = [];
   checkboxes.forEach((checkbox) => {
-    if (checkbox.checked) selectedCheckboxes.push(checkbox.value);
+    if (checkbox.checked) {
+      regionList.push(checkbox.id);
+    }
   });
   document.querySelector('.settings').close();
   newGame();
 });
-``;
+
+newGame();
