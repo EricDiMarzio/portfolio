@@ -6,6 +6,7 @@ const flagContainer = document.querySelector('.flag-container');
 const newGameButton = document.querySelector('.new-game-button');
 const settingsButton = document.querySelector('.settings-button');
 const playAgainButton = document.querySelector('.play-again-button');
+const submitButton = document.querySelector('.button-submit');
 const activeFlag = document.querySelector('.active-flag');
 const answersContainer = document.querySelector('.answers');
 const answerA = document.getElementById('answer--a');
@@ -17,6 +18,7 @@ const answers = [answerA, answerB, answerC, answerD];
 
 let countryList = new Map();
 let correctCountries = new Map();
+let regionList = [];
 let randomCountryNumber;
 let wrongAnswer;
 let activeCountry;
@@ -24,14 +26,16 @@ let randomNumber;
 let keyCounter = 0;
 let activeCountryName;
 let correctGuesses = 0;
+let numberOfCountries;
+let selectedCheckboxes;
 
 const newGame = function () {
+  regionList = [];
   flagsGrid.innerHTML = '';
   countryList.clear();
   correctCountries.clear();
   keyCounter = 0;
   correctGuesses = 0;
-  document.getElementById('title').innerHTML = 'Flag Guessr ~ 0/249';
   document.querySelector('.lives').innerHTML = '❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️';
   const request = fetch(`https://restcountries.com/v3.1/all`)
     .then((response) => {
@@ -40,7 +44,7 @@ const newGame = function () {
     })
     .then((data) => {
       data.forEach((entry) => {
-        if (entry.flags.png && entry.name.common) {
+        if (selectedCheckboxes.includes(entry.region)) {
           const newEntry = {
             commonName: entry.name.common,
             capital: entry.capital,
@@ -49,6 +53,7 @@ const newGame = function () {
             flag: entry.flag,
           };
           countryList.set(keyCounter++, newEntry);
+          regionList.push(entry.region);
         }
       });
     })
@@ -56,13 +61,25 @@ const newGame = function () {
       console.log(err);
     })
     .finally(() => {
+      const filteredRegionList = [];
+
+      regionList.forEach((region) => {
+        if (!filteredRegionList.includes(region))
+          filteredRegionList.push(region);
+      });
+      console.log(filteredRegionList);
+      numberOfCountries = countryList.size;
+      document.getElementById(
+        'title'
+      ).innerHTML = `Flag Guessr ~ ${correctGuesses}/${numberOfCountries}`;
       renderNewCountry();
+      console.log(countryList);
     });
 };
 
 const getRandomCountryNumber = function () {
   while (true) {
-    randomCountryNumber = Math.floor(Math.random() * 250);
+    randomCountryNumber = Math.floor(Math.random() * numberOfCountries);
     if (!correctCountries.has(randomCountryNumber)) {
       return randomCountryNumber;
     }
@@ -72,7 +89,7 @@ const getRandomCountryNumber = function () {
 const getWrongAnswer = function () {
   const activeRegion = activeCountry.region;
   while (true) {
-    wrongAnswer = Math.floor(Math.random() * 250);
+    wrongAnswer = Math.floor(Math.random() * numberOfCountries);
     if (
       wrongAnswer !== randomCountryNumber &&
       countryList.get(wrongAnswer).region === activeRegion
@@ -117,7 +134,8 @@ const renderNewCountry = function () {
 
 const updateAnswers = function () {};
 
-const addFlagToGrid = function () {
+const processCorrectAnswer = function () {
+  correctCountries.set(randomCountryNumber, activeCountry);
   const newFlag = document.createElement('div');
   newFlag.classList.add('grid-item');
   newFlag.innerHTML = activeCountry.flag;
@@ -125,12 +143,10 @@ const addFlagToGrid = function () {
   correctGuesses++;
   document.getElementById(
     'title'
-  ).innerHTML = `Flag Guessr ~ ${correctGuesses}/249`;
-  if (correctGuesses === 249) alert('wow!');
-};
-
-const addToCorrect = function () {
-  correctCountries.set(randomCountryNumber, activeCountry);
+  ).innerHTML = `Flag Guessr ~ ${correctGuesses}/${numberOfCountries}`;
+  if (correctGuesses === numberOfCountries)
+    document.querySelector('.modal').showModal();
+  else renderNewCountry();
 };
 
 const loseALife = function () {
@@ -145,10 +161,7 @@ answersContainer.addEventListener('click', function (e) {
     e.target.classList.add('correct');
     setTimeout(function () {
       e.target.classList.remove('correct');
-      addFlagToGrid();
-      addToCorrect();
-
-      renderNewCountry();
+      processCorrectAnswer();
     }, 300);
   }
   if (
@@ -163,12 +176,11 @@ answersContainer.addEventListener('click', function (e) {
       renderNewCountry();
     }, 300);
   }
-  // setTimeout(function () {}, 300);
 });
 
-// settingsButton.addEventListener('click', function () {
-//   document.querySelector('.modal').showModal();
-// });
+settingsButton.addEventListener('click', function () {
+  document.querySelector('.settings').showModal();
+});
 
 newGameButton.addEventListener('click', newGame);
 
@@ -177,4 +189,14 @@ playAgainButton.addEventListener('click', function () {
   document.querySelector('.modal').close();
 });
 
-// Application Start
+submitButton.addEventListener('click', function (e) {
+  e.preventDefault();
+  const checkboxes = document.getElementsByName('checkbox');
+  selectedCheckboxes = [];
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) selectedCheckboxes.push(checkbox.value);
+  });
+  document.querySelector('.settings').close();
+  newGame();
+});
+``;
