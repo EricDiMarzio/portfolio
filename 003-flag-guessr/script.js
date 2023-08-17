@@ -26,11 +26,13 @@ let keyCounter = 0;
 let correctGuesses = 0;
 let numberOfCountries;
 let regionList = ['Europe'];
+let answerCountryNumbers = [];
 
 const newGame = function () {
   flagsGrid.innerHTML = '';
   countryList.clear();
   correctCountries.clear();
+  answerCountryNumbers = [];
   keyCounter = 0;
   correctGuesses = 0;
   document.querySelector('.lives').innerHTML = '❤️❤️❤️❤️❤️';
@@ -87,11 +89,11 @@ const getWrongAnswer = function () {
 };
 
 const getWrongAnswers = function () {
-  const answerCountryNumbers = [activeCountryNumber];
+  answerCountryNumbers = [];
+  answerCountryNumbers.push(activeCountryNumber);
   let wrongNumber;
-  console.log(answerCountryNumbers);
   let x;
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 3; i++) {
     x = true;
     while (x) {
       wrongNumber = Math.floor(Math.random() * numberOfCountries);
@@ -100,8 +102,8 @@ const getWrongAnswers = function () {
         countryList.get(wrongNumber).region === activeCountry.region
       ) {
         answerCountryNumbers.push(wrongNumber);
+        x = false;
       }
-      x = false;
     }
   }
   console.log(`Answer choices ${answerCountryNumbers}`);
