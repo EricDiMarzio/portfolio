@@ -86,6 +86,28 @@ const getWrongAnswer = function () {
   }
 };
 
+const getWrongAnswers = function () {
+  const answerCountryNumbers = [activeCountryNumber];
+  let wrongNumber;
+  console.log(answerCountryNumbers);
+  let x;
+  for (let i = 0; i < 10; i++) {
+    x = true;
+    while (x) {
+      wrongNumber = Math.floor(Math.random() * numberOfCountries);
+      if (
+        !answerCountryNumbers.includes(wrongNumber) &&
+        countryList.get(wrongNumber).region === activeCountry.region
+      ) {
+        answerCountryNumbers.push(wrongNumber);
+      }
+      x = false;
+    }
+  }
+  console.log(`Answer choices ${answerCountryNumbers}`);
+  return answerCountryNumbers;
+};
+
 const renderNewCountry = function () {
   if (lives.textContent === '') {
     document.querySelector('.modal').showModal();
@@ -107,16 +129,31 @@ const renderNewCountry = function () {
     return accumulator;
   }, []);
 
-  answers[answerOrder[0]].textContent = activeCountry.commonName;
+  let answerNumbers = getWrongAnswers();
+  console.log(answerNumbers);
+  answers[answerOrder[0]].textContent = countryList.get(
+    answerNumbers[0]
+  ).commonName;
   answers[answerOrder[1]].textContent = countryList.get(
-    getWrongAnswer()
+    answerNumbers[1]
   ).commonName;
   answers[answerOrder[2]].textContent = countryList.get(
-    getWrongAnswer()
+    answerNumbers[2]
   ).commonName;
   answers[answerOrder[3]].textContent = countryList.get(
-    getWrongAnswer()
+    answerNumbers[3]
   ).commonName;
+
+  // answers[answerOrder[0]].textContent = activeCountry.commonName;
+  // answers[answerOrder[1]].textContent = countryList.get(
+  //   getWrongAnswer()
+  // ).commonName;
+  // answers[answerOrder[2]].textContent = countryList.get(
+  //   getWrongAnswer()
+  // ).commonName;
+  // answers[answerOrder[3]].textContent = countryList.get(
+  //   getWrongAnswer()
+  // ).commonName;
 };
 
 const processCorrectAnswer = function () {
